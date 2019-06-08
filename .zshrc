@@ -10,7 +10,18 @@ zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 # install dracula thema
 zplug "dracula/zsh", as:theme
 
-zplug "zsh-users/zsh-autosuggestions", as:plugins
+zplug "zsh-users/zsh-autosuggestions"
+
+zplug "mollifier/cd-gitroot"
+
+zplug "zsh-users/zsh-history-substring-search"
+
+zplug "zsh-users/zsh-completions"
+
+## command
+zplug "peco/peco", as:command, from:gh-r
+zplug "junegunn/fzf-bin", as:command, from:gh-r, file:fzf
+zplug "junegunn/fzf", as:command, of:bin/fzf-tmux
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
@@ -66,9 +77,20 @@ setopt list_types
 
 ZSH_THEME="dracula"
 
+# functions
+function peco-history-selection() {
+    BUFFER=`history -n 1 | tail | awk '!a[$0]++' | peco`
+    CURSOR=$#BUFFER
+    zle reset-prompt
+}
+
+zle -N peco-history-selection
+bindkey '^R' peco-history-selection
+
 # alias
 alias ls="ls --color=auto"
 alias ll='ls -ltr'
 alias la="ls -lhAF --color=auto"
+alias gr="cd-gitroot"
 
 echo "Start Zsh"
