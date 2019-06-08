@@ -93,4 +93,10 @@ alias ll='ls -ltr'
 alias la="ls -lhAF --color=auto"
 alias gr="cd-gitroot"
 
+# prompt
+PROMPT="%{${fg[yellow]}%}%~%{${reset_color}%}
+%{${fg[green]}%}[%n]@[%m]$ %{${reset_color}%}"
+
+RPROMPT="%{${fg[blue]}%}[%* %D]%{${reset_color}%}"
+
 echo "Start Zsh"
