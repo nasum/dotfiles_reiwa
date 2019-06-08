@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y \
     zsh \
     emacs \
     curl \
+    language-pack-ja \
     && \
     apt-get clean
 
