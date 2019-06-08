@@ -1,3 +1,4 @@
+# check install
 if [[ ! -d ~/.zplug ]];then
   git clone https://github.com/zplug/zplug ~/.zplug
 fi
@@ -17,7 +18,7 @@ if ! zplug check --verbose; then
   fi
 fi
 # Then, source plugins and add commands to $PATH
-zplug load
+zplug load --verbose
 
 ZSH_THEME="dracula"
 
