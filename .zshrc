@@ -75,6 +75,8 @@ setopt mark_dirs
 
 setopt list_types
 
+autoload -Uz vcs_info
+
 ZSH_THEME="dracula"
 
 # functions
@@ -105,9 +107,14 @@ alias la="ls -lhAF --color=auto"
 alias gr="cd-gitroot"
 
 # prompt
+zstyle ':vcs_info:*' formats '(%s)[%b]'
+zstyle ':vcs_info:*' actionformats '(%s)[%b|%a]'
+precmd () { vcs_info }
+setopt prompt_subst
+
 PROMPT="%{${fg[yellow]}%}%~%{${reset_color}%}
 %{${fg[green]}%}[%n]@[%m]$ %{${reset_color}%}"
 
-RPROMPT="%{${fg[blue]}%}[%* %D]%{${reset_color}%}"
+RPROMPT="%{${fg[yellow]}%}${vcs_info_msg_0_}%{${reset_color}%}%{${fg[blue]}%}[%* %D]%{${reset_color}%}"
 
 echo "Start Zsh"
