@@ -1,7 +1,7 @@
 FROM ubuntu:18.04
 
-ENV WORKDIR /workdir
-ENV ZPLUG_HOME /workdir/.zplug
+ENV WORKDIR /root
+ENV SHELL /usr/bin/zsh
 
 WORKDIR $WORKDIR
 
@@ -13,8 +13,6 @@ RUN apt-get update && apt-get install -y \
     && \
     apt-get clean
 
-RUN git clone https://github.com/zplug/zplug $ZPLUG_HOME
-
 ADD . $WORKDIR
 
-ENTRYPOINT [ "/workdir/entrypoint.sh" ]
+CMD zsh
