@@ -115,6 +115,7 @@ setopt prompt_subst
 PROMPT="%{${fg[yellow]}%}%~%{${reset_color}%}
 %{${fg[green]}%}[%n]@[%m]$ %{${reset_color}%}"
 
-RPROMPT="%{${fg[yellow]}%}${vcs_info_msg_0_}%{${reset_color}%}%{${fg[blue]}%}[%* %D]%{${reset_color}%}"
+RPROMPT="%{${fg[blue]}%}[%* %D]%{${reset_color}%}"
+RPROMPT='%{${fg[yellow]}%}${vcs_info_msg_0_}%{${reset_color}%}'$RPROMPT
 
 echo "Start Zsh"
