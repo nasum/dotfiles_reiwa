@@ -3,6 +3,10 @@ if [[ ! -d ~/.zplug ]];then
   git clone https://github.com/zplug/zplug ~/.zplug
 fi
 
+if [[ ! -d ~/.anyenv ]];then
+  git clone https://github.com/anyenv/anyenv ~/.zanyenv
+fi
+
 source ~/.zplug/init.zsh
 
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
