@@ -40,6 +40,7 @@ export LANGUAGE="ja_JP.UTF-8"
 export LANG="${LANGUAGE}"
 export LC_ALL="${LANGUAGE}"
 export PATH="$HOME/bin:$PATH"
+export PATH="$HOME/.anyenv/bin:$PATH"
 export EDITOR="emacs"
 
 ## history
@@ -117,5 +118,8 @@ PROMPT="%{${fg[yellow]}%}%~%{${reset_color}%}
 
 RPROMPT="%{${fg[blue]}%}[%* %D]%{${reset_color}%}"
 RPROMPT='%{${fg[yellow]}%}${vcs_info_msg_0_}%{${reset_color}%}'$RPROMPT
+
+# setup anyenv
+eval "$(anyenv init -)"
 
 echo "Start Zsh"
