@@ -4,7 +4,7 @@ if [[ ! -d ~/.zplug ]];then
 fi
 
 if [[ ! -d ~/.anyenv ]];then
-  git clone https://github.com/anyenv/anyenv ~/.zanyenv
+  git clone https://github.com/anyenv/anyenv ~/.anyenv
 fi
 
 source ~/.zplug/init.zsh
@@ -46,6 +46,8 @@ export LC_ALL="${LANGUAGE}"
 export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/.anyenv/bin:$PATH"
 export EDITOR="emacs"
+export GOPATH=$HOME/src
+export PATH=$PATH:$GOPATH/bin
 
 ## history
 export HISTFILE="${ZDOTDIR}/.zsh_history"
