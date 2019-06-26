@@ -46,7 +46,7 @@ export LC_ALL="${LANGUAGE}"
 export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/.anyenv/bin:$PATH"
 export EDITOR="emacs"
-export GOPATH=$HOME/src
+export GOPATH=$HOME
 export PATH=$PATH:$GOPATH/bin
 
 ## history
