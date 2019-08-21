@@ -7,6 +7,10 @@ if [[ ! -d ~/.anyenv ]];then
   git clone https://github.com/anyenv/anyenv ~/.zanyenv
 fi
 
+if [[ ! -d ~/.tfenv ]];then
+  git clone https://github.com/tfutils/tfenv.git ~/.tfenv
+fi
+
 source ~/.zplug/init.zsh
 
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
@@ -45,6 +49,7 @@ export LANG="${LANGUAGE}"
 export LC_ALL="${LANGUAGE}"
 export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/.anyenv/bin:$PATH"
+export PATH="$HOME/.tfenv/bin:$PATH"
 export EDITOR="emacs"
 
 ## history
@@ -127,3 +132,5 @@ RPROMPT='%{${fg[yellow]}%}${vcs_info_msg_0_}%{${reset_color}%}'$RPROMPT
 eval "$(anyenv init -)"
 
 echo "Start Zsh"
+
+eval "$(direnv hook zsh)"
