@@ -4,7 +4,7 @@ if [[ ! -d ~/.zplug ]];then
 fi
 
 if [[ ! -d ~/.anyenv ]];then
-  git clone https://github.com/anyenv/anyenv ~/.zanyenv
+  git clone https://github.com/anyenv/anyenv ~/.anyenv
 fi
 
 if [[ ! -d ~/.tfenv ]];then
@@ -51,6 +51,8 @@ export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/.anyenv/bin:$PATH"
 export PATH="$HOME/.tfenv/bin:$PATH"
 export EDITOR="emacs"
+export GOPATH=$HOME
+export PATH=$PATH:$GOPATH/bin
 
 ## history
 export HISTFILE="${ZDOTDIR}/.zsh_history"
