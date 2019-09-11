@@ -137,4 +137,4 @@ echo "Start Zsh"
 
 eval "$(direnv hook zsh)"
 
-eval "$(hub alias -s)"
+function git(){hub "$@"}
