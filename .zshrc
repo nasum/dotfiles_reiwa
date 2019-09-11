@@ -136,3 +136,5 @@ eval "$(anyenv init -)"
 echo "Start Zsh"
 
 eval "$(direnv hook zsh)"
+
+eval "$(hub alias -s)"
