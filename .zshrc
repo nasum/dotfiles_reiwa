@@ -117,6 +117,7 @@ alias ls="ls --color=auto"
 alias ll='ls -ltr'
 alias la="ls -lhAF --color=auto"
 alias gr="cd-gitroot"
+alias open="xdg-open"
 
 # prompt
 zstyle ':vcs_info:*' formats '(%s)[%b]'
