@@ -55,9 +55,15 @@ export GOPATH=$HOME
 export PATH=$PATH:$GOPATH/bin
 
 ## history
-export HISTFILE="${ZDOTDIR}/.zsh_history"
-export HISTSIZE=100000
-export SAVEHIST=${HISTSIZE}
+export HISTFILE="~/.zsh_history"
+export HISTSIZE=1000
+export SAVEHIST=100000
+
+### 重複を記録しない
+setopt hist_ignore_dups
+
+### 開始と終了を記録
+setopt EXTENDED_HISTORY
 
 # zsh setting
 ## prompt colors
