@@ -53,6 +53,9 @@ export PATH="$HOME/.tfenv/bin:$PATH"
 export EDITOR="emacs"
 export GOPATH=$HOME
 export PATH=$PATH:$GOPATH/bin
+## coreutilsのため
+export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 
 ## history
 export HISTFILE=${HOME}/.zsh_history
