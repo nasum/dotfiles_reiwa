@@ -11,6 +11,10 @@ if [[ ! -d ~/.tfenv ]];then
   git clone https://github.com/tfutils/tfenv.git ~/.tfenv
 fi
 
+if [[ ! -d ~/.cargo ]];then
+  curl https://sh.rustup.rs -sSf | sh
+fi
+
 source ~/.zplug/init.zsh
 
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
@@ -56,6 +60,8 @@ export PATH=$PATH:$GOPATH/bin
 ## coreutilsのため
 export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
+
+export PATH="$HOME/.cargo/bin:$PATH"
 
 ## history
 export HISTFILE=${HOME}/.zsh_history
