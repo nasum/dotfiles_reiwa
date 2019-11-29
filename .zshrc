@@ -32,8 +32,8 @@ zplug "zsh-users/zsh-completions"
 
 ## command
 zplug "peco/peco", as:command, from:gh-r
-zplug "junegunn/fzf-bin", as:command, from:gh-r, file:fzf
-zplug "junegunn/fzf", as:command, of:bin/fzf-tmux
+zplug "junegunn/fzf-bin", as:command, from:gh-r, rename-to:fzf
+zplug "junegunn/fzf", as:command, use:bin/fzf-tmux
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
