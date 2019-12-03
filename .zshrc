@@ -19,18 +19,14 @@ source ~/.zplug/init.zsh
 
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 
-# install dracula thema
+# install plugin
 zplug "dracula/zsh", as:theme
-
 zplug "zsh-users/zsh-autosuggestions"
-
 zplug "mollifier/cd-gitroot"
-
 zplug "zsh-users/zsh-history-substring-search"
-
 zplug "zsh-users/zsh-completions"
-
 zplug "mollifier/anyframe"
+zplug "agkozak/zsh-z"
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
@@ -54,6 +50,7 @@ export PATH="$HOME/.tfenv/bin:$PATH"
 export EDITOR="emacs"
 export GOPATH=$HOME
 export PATH=$PATH:$GOPATH/bin
+export PATH="$HOME/.z:$PATH"
 ## coreutilsのため
 export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
@@ -103,6 +100,7 @@ autoload -Uz vcs_info
 
 ZSH_THEME="dracula"
 
+# anyframe
 bindkey '^R' anyframe-widget-execute-history
 bindkey '^]' anyframe-widget-cd-ghq-repository
 
