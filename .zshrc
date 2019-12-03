@@ -30,10 +30,7 @@ zplug "zsh-users/zsh-history-substring-search"
 
 zplug "zsh-users/zsh-completions"
 
-## command
-zplug "peco/peco", as:command, from:gh-r
-zplug "junegunn/fzf-bin", as:command, from:gh-r, rename-to:fzf
-zplug "junegunn/fzf", as:command, use:bin/fzf-tmux
+zplug "mollifier/anyframe"
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
@@ -106,26 +103,8 @@ autoload -Uz vcs_info
 
 ZSH_THEME="dracula"
 
-# functions
-function peco-history-selection() {
-    BUFFER=`history -n 1 | tail | awk '!a[$0]++' | peco`
-    CURSOR=$#BUFFER
-    zle reset-prompt
-}
-
-zle -N peco-history-selection
-bindkey '^R' peco-history-selection
-
-function peco-src () {
-  local selected_dir=$(ghq list -p | peco --query "$LBUFFER")
-  if [ -n "$selected_dir" ]; then
-    BUFFER="cd ${selected_dir}"
-    zle accept-line
-  fi
-  zle clear-screen
-}
-zle -N peco-src
-bindkey '^]' peco-src
+bindkey '^R' anyframe-widget-execute-history
+bindkey '^]' anyframe-widget-cd-ghq-repository
 
 # alias
 alias ls="ls --color=auto"
