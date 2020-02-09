@@ -1,4 +1,4 @@
 .zplug/
 .emacs.d/
 .zcompdump
-#.*#
+.#.*
