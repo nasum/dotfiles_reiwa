@@ -31,6 +31,7 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     html
      rust
      markdown
      sql
@@ -329,6 +330,60 @@ before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
   )
 
+(defun python-copy-identifier-path ()
+  (interactive)
+  (let* ((path
+          (-if-let (root (and (fboundp 'projectile-project-root)
+                              (projectile-project-root)))
+              (s-replace (projectile-project-root) "" (buffer-file-name))
+            (progn
+              (message "Not on project, will return absolute path.")
+              (buffer-file-name))))
+         (classpath
+          (s-join
+           "."
+           (list (->> path
+                      (s-chop-suffix ".py")
+                      (s-replace "/" "."))
+                 (->> (python-copy-identifier-path--identifier-path)
+                      (--map (cdr (assoc 'text it)))
+                      (s-join "."))))))
+    (kill-new classpath)
+    (message (format "\"%s\" copied to clipboard." classpath))))
+
+
+;; Private
+;;
+
+(defun python-copy-identifier-path--identifier-path ()
+  (-let* (((_start . end) (bounds-of-thing-at-point 'symbol))
+          (pat "\\(def\\|class\\)\s+\\([^\s:(]+\\)\\(:\\|(\\)?"))
+    (if (not end)
+        (message "Cannot find any identifier at that point.")
+      (with-current-buffer (current-buffer)
+        (save-excursion
+          ;; thing-at-point からファイルの頭に向かって遡っていく
+          (goto-char end)
+          (let (result (current-indent 1.0e+INF))
+            (while (search-backward-regexp pat nil t)
+              (let ((mb (match-beginning 2))
+                    (me (match-end 2))
+                    (col (current-column)))
+                (when (< col current-indent)
+                  ;; Python の仕様に則ればインデントのレベルがより小さけえば
+                  ;; 親要素とみなすことができる
+                  (push
+                   `(
+                     (text . ,(buffer-substring mb me))
+                     (row . ,(line-number-at-pos))
+                     (col . ,col)
+                     (beginning . ,mb)
+                     (end . ,me)
+                     )
+                   result)
+                  (setq current-indent col))))
+            result))))))
+
 (defun dotspacemacs/user-config ()
                                  (set-language-environment "Japanese")
                                  (setq default-input-method "japanese-mozc")
@@ -337,11 +392,12 @@ before packages are loaded. If you are unsure, you should try in setting them in
                                  (setq dumb-jump-mode t)
                                  (define-key global-map [(meta d)] 'dumb-jump-go)
                                  (define-key global-map [(meta -)] 'dumb-jump-back)
-                                 (setq py-isort-option '("-m 3"))
-                                 (setq poetry-tracking-mode)
                                  ;;(add-hook 'python-mode-hook
                                  ;;          '(lambda()
                                  ;;             (add-hook 'before-save-hook 'py-isort-before-save)))
+                                 ;; python path copy
+                                 (define-key global-map (kbd "M-p") 'python-copy-identifier-path)
+
   "Configuration function for user code.
 This function is called at the very end of Spacemacs initialization after
 layers configuration.
@@ -359,7 +415,7 @@ you should place your code here."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (poetry toml-mode racer flycheck-rust cargo rust-mode sql-indent yaml-mode vue-mode edit-indirect ssass-mode vue-html-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby unfill smeargle orgit mwim mmm-mode markdown-toc markdown-mode magit-gitflow magit-popup helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip evil-magit magit git-commit with-editor transient diff-hl auto-dictionary web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc company-tern tern coffee-mode tide typescript-mode flycheck mozc helm-company helm-c-yasnippet fuzzy company-statistics company-anaconda company auto-yasnippet yasnippet ac-ispell auto-complete yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode dash-functional helm-pydoc cython-mode anaconda-mode pythonic ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra lv hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile projectile pkg-info epl helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async))))
+    (web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data poetry toml-mode racer flycheck-rust cargo rust-mode sql-indent yaml-mode vue-mode edit-indirect ssass-mode vue-html-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby unfill smeargle orgit mwim mmm-mode markdown-toc markdown-mode magit-gitflow magit-popup helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip evil-magit magit git-commit with-editor transient diff-hl auto-dictionary web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc company-tern tern coffee-mode tide typescript-mode flycheck mozc helm-company helm-c-yasnippet fuzzy company-statistics company-anaconda company auto-yasnippet yasnippet ac-ispell auto-complete yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode dash-functional helm-pydoc cython-mode anaconda-mode pythonic ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra lv hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile projectile pkg-info epl helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
