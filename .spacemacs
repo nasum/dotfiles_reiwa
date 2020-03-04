@@ -37,7 +37,10 @@ values."
      sql
      yaml
      (ruby :variables ruby-backend 'lsp)
-     (javascript :variables javascript-backend 'lsp)
+     (javascript :variables
+                 javascript-backend 'lsp
+                 node-add-modules-path t
+                 )
      (typescript :variables
                  typescript-backend 'lsp
                  typescript-fmt-on-save t
@@ -54,6 +57,8 @@ values."
                       version-control-diff-tool 'diff-hl
                       version-control-diff-side 'left
                       )
+     (vue :variables vue-backend 'lsp)
+     (node :variables node-add-modules-path t)
 
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
@@ -80,8 +85,10 @@ values."
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages '(
                                       mozc
-                                      vue-mode
                                       poetry
+                                      prettier-js
+                                      lsp-ui
+                                      company-lsp
                                       )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -160,7 +167,7 @@ values."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Source Code Pro"
+   dotspacemacs-default-font '("Ricty Diminished"
                                :size 13
                                :weight normal
                                :width normal
@@ -268,11 +275,13 @@ values."
    dotspacemacs-show-transient-state-title t
    ;; If non nil show the color guide hint for transient state keys. (default t)
    dotspacemacs-show-transient-state-color-guide t
+
    ;; If non nil unicode symbols are displayed in the mode line. (default t)
    dotspacemacs-mode-line-unicode-symbols t
    ;; If non nil smooth scrolling (native-scrolling) is enabled. Smooth
    ;; scrolling overrides the default behavior of Emacs which recenters point
    ;; when it reaches the top or bottom of the screen. (default t)
+   dotspacemacs-mode-line-theme 'all-the-icons
    dotspacemacs-smooth-scrolling t
    ;; Control line numbers activation.
    ;; If set to `t' or `relative' line numbers are turned on in all `prog-mode' and
@@ -384,20 +393,34 @@ before packages are loaded. If you are unsure, you should try in setting them in
                   (setq current-indent col))))
             result))))))
 
+
 (defun dotspacemacs/user-config ()
                                  (set-language-environment "Japanese")
                                  (setq default-input-method "japanese-mozc")
                                  (prefer-coding-system 'utf-8)
                                  (global-set-key (kbd "<henkan>")(lambda () (interactive) (mozc-mode 1)))
                                  (setq dumb-jump-mode t)
-                                 (define-key global-map [(meta d)] 'dumb-jump-go)
-                                 (define-key global-map [(meta -)] 'dumb-jump-back)
+                                 (define-key global-map (kbd "M-d") 'dumb-jump-go)
+                                 (define-key global-map (kbd "M--") 'dumb-jump-back)
                                  ;;(add-hook 'python-mode-hook
                                  ;;          '(lambda()
                                  ;;             (add-hook 'before-save-hook 'py-isort-before-save)))
                                  ;; python path copy
                                  (define-key global-map (kbd "M-p") 'python-copy-identifier-path)
+                                 (eval-after-load 'web-mode
+                                   '(progn
+                                      (add-hook 'web-mode-hook #'add-node-modules-path)))
 
+                                 (require 'prettier-js)
+                                 (add-hook 'js2-mode-hook 'prettier-js-mode)
+                                 (add-hook 'web-mode-hook 'prettier-js-mode)
+                                 (setq-default
+                                  ;; web-mode
+                                  web-mode-markup-indent-offset 2
+                                  web-mode-css-indent-offset 2
+                                  web-mode-code-indent-offset 2
+                                  web-mode-attr-indent-offset 2)
+                                 
   "Configuration function for user code.
 This function is called at the very end of Spacemacs initialization after
 layers configuration.
@@ -415,7 +438,7 @@ you should place your code here."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data poetry toml-mode racer flycheck-rust cargo rust-mode sql-indent yaml-mode vue-mode edit-indirect ssass-mode vue-html-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby unfill smeargle orgit mwim mmm-mode markdown-toc markdown-mode magit-gitflow magit-popup helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip evil-magit magit git-commit with-editor transient diff-hl auto-dictionary web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc company-tern tern coffee-mode tide typescript-mode flycheck mozc helm-company helm-c-yasnippet fuzzy company-statistics company-anaconda company auto-yasnippet yasnippet ac-ispell auto-complete yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode dash-functional helm-pydoc cython-mode anaconda-mode pythonic ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra lv hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile projectile pkg-info epl helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async))))
+    (reformatter lsp-ui company-lsp lsp-mode ht prettier-js web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data poetry toml-mode racer flycheck-rust cargo rust-mode sql-indent yaml-mode vue-mode edit-indirect ssass-mode vue-html-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby unfill smeargle orgit mwim mmm-mode markdown-toc markdown-mode magit-gitflow magit-popup helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip evil-magit magit git-commit with-editor transient diff-hl auto-dictionary web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc company-tern tern coffee-mode tide typescript-mode flycheck mozc helm-company helm-c-yasnippet fuzzy company-statistics company-anaconda company auto-yasnippet yasnippet ac-ispell auto-complete yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode dash-functional helm-pydoc cython-mode anaconda-mode pythonic ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra lv hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile projectile pkg-info epl helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
