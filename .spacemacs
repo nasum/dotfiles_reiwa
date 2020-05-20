@@ -426,6 +426,7 @@ before packages are loaded. If you are unsure, you should try in setting them in
                                   web-mode-code-indent-offset 2
                                   web-mode-attr-indent-offset 2)
                                  (setq-default typescript-indent-level 2)
+                                 (evil-leader/set-key "/" 'spacemacs/helm-project-do-ag)
   "Configuration function for user code.
 This function is called at the very end of Spacemacs initialization after
 layers configuration.

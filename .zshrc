@@ -15,6 +15,10 @@ if [[ ! -d ~/.cargo ]];then
   curl https://sh.rustup.rs -sSf | sh
 fi
 
+if [[ ! -d ~/.deno ]];then
+  curl -fsSL https://deno.land/x/install/install.sh | sh  
+fi
+
 source ~/.zplug/init.zsh
 
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
@@ -41,9 +45,9 @@ zplug load --verbose
 source ~/.zplug/repos/zsh-users/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # export
-export LANGUAGE="ja_JP.UTF-8"
-export LANG="${LANGUAGE}"
-export LC_ALL="${LANGUAGE}"
+#export LANGUAGE="ja_JP.UTF-8"
+#export LANG="${LANGUAGE}"
+#export LC_ALL="${LANGUAGE}"
 export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/.anyenv/bin:$PATH"
 export PATH="$HOME/.tfenv/bin:$PATH"
@@ -132,3 +136,7 @@ echo "Start Zsh"
 eval "$(direnv hook zsh)"
 
 function git(){hub "$@"}
+
+# Deno
+export DENO_INSTALL="~/.deno"
+export PATH="$DENO_INSTALL/bin:$PATH"
