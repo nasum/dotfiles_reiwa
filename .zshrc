@@ -138,5 +138,5 @@ eval "$(direnv hook zsh)"
 function git(){hub "$@"}
 
 # Deno
-export DENO_INSTALL="~/.deno"
+export DENO_INSTALL="$HOME/.deno"
 export PATH="$DENO_INSTALL/bin:$PATH"
