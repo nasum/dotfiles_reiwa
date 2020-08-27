@@ -115,6 +115,7 @@ alias ll='ls -ltr'
 alias la="ls -lhAF --color=auto"
 alias gr="cd-gitroot"
 alias open="xdg-open"
+alias demacs="emacs -q -l .emacs.dev/init.el"
 
 # prompt
 zstyle ':vcs_info:*' formats '(%s)[%b]'
