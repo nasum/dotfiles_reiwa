@@ -50,6 +50,7 @@ values."
                  typescript-fmt-on-save t
                  typescript-fmt-tool 'prettier
                  typescript-linter 'eslint
+                 typescript-lsp-linter nil
                  )
      (python :variables
              python-backend 'lsp
@@ -431,6 +432,7 @@ before packages are loaded. If you are unsure, you should try in setting them in
                                   web-mode-attr-indent-offset 2)
                                  (setq-default typescript-indent-level 2)
                                  (evil-leader/set-key "/" 'spacemacs/helm-project-do-ag)
+                                 (add-to-list 'default-frame-alist '(fullscreen . maximized))
   "Configuration function for user code.
 This function is called at the very end of Spacemacs initialization after
 layers configuration.
