@@ -17,7 +17,8 @@
   m = checkout master
   co = checkout
   current-branch = ! git branch | grep -e '^\\* ' | sed -e 's/^\\* //g'
-  force-pull = !git fetch && git reset --hard origin/$(git current-branch)
+	force-pull = !git fetch && git reset --hard origin/$(git current-branch)
+	st = "status --ignore-submodules=dirty"
 [ghq]
 	root = ~/src
 [color]
