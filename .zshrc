@@ -51,8 +51,8 @@ source ~/.zplug/repos/zsh-users/zsh-autosuggestions/zsh-autosuggestions.zsh
 export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/.anyenv/bin:$PATH"
 export PATH="$HOME/.tfenv/bin:$PATH"
-#export EDITOR="emacs"
-export EDITOR='emacsclient -a "" -t'
+export EDITOR="emacs"
+#export EDITOR='emacsclient -a "" -t'
 export GOPATH=$HOME
 export PATH=$PATH:$GOPATH/bin
 export PATH="$HOME/.z:$PATH"
@@ -116,7 +116,7 @@ alias ll='ls -ltr'
 alias la="ls -lhAF --color=auto"
 alias gr="cd-gitroot"
 alias open="xdg-open"
-alias demacs="emacs -q -l .emacs.dev/init.el"
+alias demacs="emacs -q -l ~/.emacs.dev/init.el"
 alias E='emacsclient -a "" -t'
 alias ekill='emacsclient -e "(kill-emacs)"'
 # prompt
