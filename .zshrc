@@ -56,6 +56,8 @@ export EDITOR="emacs"
 export GOPATH=$HOME
 export PATH=$PATH:$GOPATH/bin
 export PATH="$HOME/.z:$PATH"
+export PATH="$PATH:/usr/lib/dart/bin"
+
 ## coreutilsのため
 export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
