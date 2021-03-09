@@ -1,4 +1,6 @@
-.zplug/
-.emacs.d/
-.zcompdump
-.#.*
+.envrc
+.node-version
+\#*\#
+.\#*
+venv/
+docker-compose.override.yaml
