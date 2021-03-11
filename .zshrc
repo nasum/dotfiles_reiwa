@@ -58,10 +58,6 @@ export PATH=$PATH:$GOPATH/bin
 export PATH="$HOME/.z:$PATH"
 export PATH="$PATH:/usr/lib/dart/bin"
 
-## coreutilsのため
-export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
-export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
-
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.yarn/bin:$PATH"
 
@@ -117,7 +113,6 @@ alias ls="ls --color=auto"
 alias ll='ls -ltr'
 alias la="ls -lhAF --color=auto"
 alias gr="cd-gitroot"
-alias open="xdg-open"
 alias demacs="emacs -q -l ~/.emacs.dev/init.el"
 alias E='emacsclient -a "" -t'
 alias ekill='emacsclient -e "(kill-emacs)"'
@@ -145,3 +140,5 @@ function git(){hub "$@"}
 # Deno
 export DENO_INSTALL="$HOME/.deno"
 export PATH="$DENO_INSTALL/bin:$PATH"
+
+[ -f $ZDOTDIR/.zshrc_`uname` ] && . $ZDOTDIR/.zshrc_`uname`
