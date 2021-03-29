@@ -57,11 +57,12 @@ values."
                  js-indent-level 2
                  )
      (typescript :variables
-                 typescript-backend 'lsp
+                 typescript-backend 'tide
                  typescript-fmt-on-save t
                  typescript-fmt-tool 'prettier
                  typescript-linter 'eslint
                  typescript-lsp-linter nil
+                 tide-tsserver-executable "/usr/local/bin/tsserver"
                  )
      (python :variables
              python-backend 'lsp
@@ -118,6 +119,7 @@ values."
      syntax-checking
      ;; version-control
      protobuf
+     (osx :variables osx-command-as 'meta)
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -127,8 +129,6 @@ values."
                                       mozc
                                       poetry
                                       prettier-js
-                                      lsp-ui
-                                      company-lsp
                                       jedi
                                       (lapras.el :location "~/src/github.com/lapras-inc/lapras.el")
                                       )
@@ -473,7 +473,13 @@ before packages are loaded. If you are unsure, you should try in setting them in
                                  (setq-default typescript-indent-level 2)
                                  (evil-leader/set-key "/" 'spacemacs/helm-project-do-ag)
                                  (add-to-list 'default-frame-alist '(fullscreen . maximized))
-  "Configuration function for user code.
+                                 (if (spacemacs/system-is-mac)
+                                     (setq mac-left-command-modifier 'meta
+                                           mac-right-option-modifier  'none)
+                                   (setq ns-command-modifier (quote meta))
+                                   (setq ns-alternate-modifier (quote super))
+                                   )
+  "Configuration function for user code.0
 This function is called at the very end of Spacemacs initialization after
 layers configuration.
 This is the place where most of your configurations should be done. Unless it is
@@ -507,9 +513,9 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
-   (quote
-    (dockerfile-mode docker tablist docker-tramp ox-twbs ox-reveal ox-gfm go-guru go-eldoc company-go go-mode xterm-color vmd-mode terraform-mode hcl-mode shell-pop org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download multi-term jinja2-mode jedi jedi-core python-environment epc ctable concurrent deferred htmlize gnuplot eshell-z eshell-prompt-extras esh-help csv-mode company-ansible ansible-doc ansible reformatter lsp-ui company-lsp lsp-mode ht prettier-js web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data poetry toml-mode racer flycheck-rust cargo rust-mode sql-indent yaml-mode vue-mode edit-indirect ssass-mode vue-html-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby unfill smeargle orgit mwim mmm-mode markdown-toc markdown-mode magit-gitflow magit-popup helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip evil-magit magit git-commit with-editor transient diff-hl auto-dictionary web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc company-tern tern coffee-mode tide typescript-mode flycheck mozc helm-company helm-c-yasnippet fuzzy company-statistics company-anaconda company auto-yasnippet yasnippet ac-ispell auto-complete yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode dash-functional helm-pydoc cython-mode anaconda-mode pythonic ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra lv hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile projectile pkg-info epl helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async))))
+   '(reveal-in-osx-finder osx-trash osx-dictionary osx-clipboard launchctl ox-twbs ox-reveal ox-gfm go-guru go-eldoc company-go go-mode xterm-color vmd-mode terraform-mode hcl-mode shell-pop org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download multi-term jinja2-mode jedi jedi-core python-environment epc ctable concurrent deferred htmlize gnuplot eshell-z eshell-prompt-extras esh-help csv-mode company-ansible ansible-doc ansible reformatter lsp-ui company-lsp lsp-mode ht prettier-js web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data poetry toml-mode racer flycheck-rust cargo rust-mode sql-indent yaml-mode vue-mode edit-indirect ssass-mode vue-html-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby unfill smeargle orgit mwim mmm-mode markdown-toc markdown-mode magit-gitflow magit-popup helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip evil-magit magit git-commit with-editor transient diff-hl auto-dictionary web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc company-tern tern coffee-mode tide typescript-mode flycheck mozc helm-company helm-c-yasnippet fuzzy company-statistics company-anaconda company auto-yasnippet yasnippet ac-ispell auto-complete yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode dash-functional helm-pydoc cython-mode anaconda-mode pythonic ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra lv hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile projectile pkg-info epl helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
