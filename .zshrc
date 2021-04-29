@@ -141,4 +141,4 @@ function git(){hub "$@"}
 export DENO_INSTALL="$HOME/.deno"
 export PATH="$DENO_INSTALL/bin:$PATH"
 
-[ -f $ZDOTDIR/.zshrc_`uname`  ] && . $ZDOTDIR/.zshrc_`uname`
+[ -f ~/.zshrc_`uname`  ] && . ~/.zshrc_`uname`
