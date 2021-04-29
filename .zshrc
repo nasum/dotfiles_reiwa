@@ -63,7 +63,7 @@ export PATH="$HOME/.yarn/bin:$PATH"
 
 ## history
 export HISTFILE=${HOME}/.zsh_history
-export HISTSIZE=1000
+export HISTSIZE=100000
 export SAVEHIST=100000
 
 ### 重複を記録しない
@@ -141,4 +141,4 @@ function git(){hub "$@"}
 export DENO_INSTALL="$HOME/.deno"
 export PATH="$DENO_INSTALL/bin:$PATH"
 
-[ -f ~/.zshrc_`uname` ] && . ~/.zshrc_`uname`
+[ -f $ZDOTDIR/.zshrc_`uname`  ] && . $ZDOTDIR/.zshrc_`uname`
