@@ -1,1 +1,4 @@
 alias open="xdg-open"
+
+fpath=(/home/linuxbrew/.linuxbrew/share/zsh-completions $fpath)
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
