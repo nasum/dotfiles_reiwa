@@ -445,6 +445,16 @@ before packages are loaded. If you are unsure, you should try in setting them in
     (while (search-forward ssnake nil t)
       (replace-match camel))))
 
+(require 'hl-line)
+(defvar global-hl-line-timer-exclude-modes '(todotxt-mode))
+(defun global-hl-line-timer-function ()
+  (unless (memq major-mode global-hl-line-timer-exclude-modes)
+    (global-hl-line-unhighlight-all)
+    (let ((global-hl-line-mode t))
+      (global-hl-line-highlight))))
+(setq global-hl-line-timer
+      (run-with-idle-timer 0.03 t 'global-hl-line-timer-function))
+;; (cancel-timer global-hl-line-timer)
 
 (defun dotspacemacs/user-config ()
                                  (set-language-environment "Japanese")
@@ -473,6 +483,7 @@ before packages are loaded. If you are unsure, you should try in setting them in
                                  (setq-default typescript-indent-level 2)
                                  (evil-leader/set-key "/" 'spacemacs/helm-project-do-ag)
                                  (add-to-list 'default-frame-alist '(fullscreen . maximized))
+                                 (scroll-bar-mode -1)
                                  (if (spacemacs/system-is-mac)
                                      (setq mac-left-command-modifier 'meta
                                            mac-right-option-modifier  'none)

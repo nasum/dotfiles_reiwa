@@ -1,6 +1,6 @@
 [core]
 	excludesfile = ~/.gitignore
-	editor = emacs
+	editor = code
 [user]
 	name = nasum
 	email = tomato.wonder.life@gmail.com
