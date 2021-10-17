@@ -1,6 +1,6 @@
 [core]
 	excludesfile = ~/.gitignore
-	editor = code
+	editor = emacs
 [user]
 	name = nasum
 	email = tomato.wonder.life@gmail.com
@@ -12,11 +12,11 @@
 	delete-merged-branch = "branch --merged | grep -v develop | grep -v master | xargs git branch -D"
 	bt = "branch -v --sort=authordate"
 	open = !hub browse -- pull/$(git symbolic-ref --short HEAD)
-  ch = checkout
-  chb = checkout -b
-  m = checkout master
-  co = checkout
-  current-branch = ! git branch | grep -e '^\\* ' | sed -e 's/^\\* //g'
+  	ch = checkout
+  	chb = checkout -b
+  	m = checkout master
+  	co = checkout
+  	current-branch = ! git branch | grep -e '^\\* ' | sed -e 's/^\\* //g'
 	force-pull = !git fetch && git reset --hard origin/$(git current-branch)
 	st = "status --ignore-submodules=dirty"
 [ghq]
@@ -25,7 +25,3 @@
 	diff = auto
 	status = auto
 	branch = auto
-
-
-[includeIf "gitdir:~/src/github.com/scouty-inc/"]
-  path = ~/.gitconfig-work
