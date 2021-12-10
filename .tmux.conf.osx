@@ -1,0 +1,5 @@
+## Clipboardを共有
+bind-key -T copy-mode y send -X copy-pipe-and-cancel "pbcopy"
+
+## マウスをドラッグしたらコピーする
+bind-key -T copy-mode MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "pbcopy"
